@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Yapay Zekâ Araçlarının KVKK Kapsamında Oluşturabileceği Riskler</title>
+<style>html,body{margin:0;height:100%;background:#14161c;overflow:hidden}#kk-root{position:fixed;inset:0}</style>
+
+</head>
+<body>
+<div id="kk-root"></div>
+<script src="data.js"></script>
+<script src="player.js"></script>
+<script>
+(function () {
+  var course = window.KK_COURSE;
+  var S = KKPlayer.SCORM;
+  var LMS = {"version":"2004","status":"completedIncomplete","track":"slides"};
+  var lms = LMS ? S.init(LMS) : false;
+  var total = course.slides.length;
+  var visited = {};
+  var resumeIndex = 0;
+  var quizState = null;
+  if (lms) {
+    var loc = parseInt(S.location(), 10);
+    if (loc >= 0 && loc < total) resumeIndex = loc;
+    var sd = S.suspendData(), bar = sd.indexOf("|");
+    if (bar >= 0) { try { quizState = JSON.parse(sd.slice(bar + 1)); } catch (e) {} sd = sd.slice(0, bar); }
+    sd.split(",").forEach(function (v) {
+      var n = parseInt(v, 10); if (n >= 0 && n < total) visited[n] = true;
+    });
+  }
+  function saveSuspend() {
+    var seen = Object.keys(visited).join(",");
+    S.setSuspendData(quizState ? seen + "|" + JSON.stringify(quizState) : seen);
+  }
+  KKPlayer.createPlayer(document.getElementById("kk-root"), course, {
+    resumeIndex: resumeIndex,
+    visited: Object.keys(visited),
+    quizState: quizState,
+    startScreen: true,
+    onSlideChange: function (i) {
+      visited[i] = true;
+      if (!lms) return;
+      S.setLocation(i);
+      saveSuspend();
+      if (LMS.track !== "quiz" && Object.keys(visited).length >= total) S.complete();
+      S.commit();
+    },
+    onQuizChange: function (st) { quizState = st; if (lms) { saveSuspend(); S.commit(); } },
+    onInteraction: function (d) { if (lms) S.interaction(d); },
+    onQuizResult: function (r) {
+      if (!lms) return;
+      S.setScore(r.percent);
+      if (LMS.track === "quiz") S.quizStatus(r.passed);
+    },
+    onExit: function () {
+      S.finish(true);
+      setTimeout(function () {
+        try { if (window.top && window.top !== window) window.top.close(); } catch (e) {}
+        try { window.close(); } catch (e) {}
+      }, 50);
+    }
+  });
+  function done() { S.finish(); }
+  window.addEventListener("pagehide", done);
+  window.addEventListener("beforeunload", done);
+})();
+</script>
+</body>
+</html>
