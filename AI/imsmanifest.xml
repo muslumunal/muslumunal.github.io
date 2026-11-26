@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="KK_kurs_a89i7meosmx" version="1"
+  xmlns="http://www.imsglobal.org/xsd/imscp_v1p1"
+  xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3"
+  xmlns:adlseq="http://www.adlnet.org/xsd/adlseq_v1p3"
+  xmlns:adlnav="http://www.adlnet.org/xsd/adlnav_v1p3"
+  xmlns:imsss="http://www.imsglobal.org/xsd/imsss"
+  xmlns:lom="http://ltsc.ieee.org/xsd/LOM"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd http://ltsc.ieee.org/xsd/LOM lom.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>2004 4th Edition</schemaversion>
+    <lom:lom>
+      <lom:general>
+        <lom:title><lom:string language="tr">AI2</lom:string></lom:title>
+      </lom:general>
+    </lom:lom>
+  </metadata>
+  <organizations default="ORG_1">
+    <organization identifier="ORG_1">
+      <title>AI2</title>
+      <item identifier="KK_kurs_a89i7meosmx_SCO" identifierref="RES_1" isvisible="true">
+        <title>AI2</title>
+        <imsss:sequencing>
+          <imsss:deliveryControls completionSetByContent="true" objectiveSetByContent="true"/>
+        </imsss:sequencing>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="RES_1" type="webcontent" adlcp:scormType="sco" href="index.html">
+      <file href="index.html"/>
+      <file href="story.html"/>
+      <file href="index_lms.html"/>
+      <file href="player.js"/>
+      <file href="data.js"/>
+      <file href="media/m_s7v4m361dja.html"/>
+      <file href="media/m_975drad1djb.png"/>
+      <file href="media/m_oa5hi34ubzn.mp3"/>
+    </resource>
+  </resources>
+</manifest>
